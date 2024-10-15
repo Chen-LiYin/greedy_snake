@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+:root {
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    background: #000d36;
+    color: white;
+}
+
+#canvas {
+    background: #fff;
+    margin-left: 50%;
+    margin-top: 1%;
+    transform: translateX(-50%);
+}
+
+#game_over {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3em;
+    text-transform: uppercase;
+    font-family: "Press Start 2P", cursive;
+}
+
+#score {
+    position: absolute;
+    font-size: larger;
+    top: 75px;
+    right: 9%;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+
+    /* align-items: center; */
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    /* font-size: 20px; */
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#high-score {
+    position: absolute;
+    top: 25px;
+    right: 5%;
+    color: yellow;
+    font-family: "Press Start 2P", cursive;
+}
+
+#controls {
+    position: absolute;
+    top: 40%;
+    left: 12%;
+    display: flex;
+    flex-direction: column;
+}
+
+#control-keys {
+    top: 200px;
+    right: 7%;
+    position: absolute;
+    color: #ccccccd7;
+    padding: 12px;
+    font-size: 1.2em;
+    line-height: 48px;
+    box-shadow: 0 0 8px lightgreen;
+}
+
+#control-head {
+    text-align: center;
+    font-family: "Press Start 2P", cursive;
+}
+
+/* #reset,
+#show-grid,
+.pause-active {
+    background: #000d36;
+    color: #cccccc;
+    border-radius: 25px;
+    width: 120px;
+    padding: 12px;
+    margin-top: 18px;
+    box-shadow: 0 0 3px lightgreen;
+    font-size: 0.8em;
+    font-weight: bold;
+    transition: box-shadow 0.3s;
+    text-shadow: 0 0 8px lightseagreen;
+    text-transform: uppercase;
+} */
+
+/* .pause-not-active {
+    background: rgba(239, 239, 240, 0.4);
+    box-shadow: none;
+    color: #cccccc;
+    border-radius: 25px;
+    width: 120px;
+    padding: 12px;
+    margin-top: 18px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-shadow: 0 0 8px lightseagreen;
+    text-transform: uppercase;
+} */
+
+/* #reset:hover,
+#show-grid:hover,
+.pause-active:hover {
+    box-shadow: 0 0 12px lightgreen;
+    color: yellowgreen;
+} */
+
+#play {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Press Start 2P", cursive;
+    font-size: 1.3em;
+    padding: 20px;
+    color: lightgreen;
+    animation: animate-play 1.4s linear infinite;
+}
+
+@keyframes animate-play {
+    0% {
+        text-shadow: 0 0 4px lightgreen;
+    }
+
+    50% {
+        text-shadow: 0 0 8px lightgreen;
+    }
+
+    100% {
+        text-shadow: 0 0 4px lightgreen;
+    }
+}
+
+#channel {
+    position: absolute;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-transform: uppercase;
+    top: 36%;
+    left: 14px;
+    font-size: 3.2em;
+    font-family: "Press Start 2P", cursive;
+    letter-spacing: 0.4em;
+    color: #cccccc;
+    text-shadow: 0 0 12px orange;
+    border: 5px solid rgba(255, 255, 0, 0.845);
+    padding: 14px;
+}
+
+
+
+
+/* .pause-active, */
+.button-64 {
+    align-items: center;
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 20px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    /* 平滑過渡效果 */
+}
+
+/* .pause-active, */
+.button-64:hover {
+    transform: translateY(-5px);
+    /* 在 hover 時彈跳 */
+    box-shadow: rgba(151, 65, 252, 0.4) 0 20px 40px -10px;
+    /* 調整陰影效果 */
+}
+
+
+/* .pause-active, */
+.button-64:active {
+    outline: 0;
+    transform: translateY(0);
+    /* 在 active 時回到原位 */
+}
+
+
+.button-64 span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+
+@media (min-width: 768px) {
+    .button-64 {
+        font-size: 24px;
+        min-width: 196px;
+    }
+}
+
+.button-container {
+    display: flex;
+    /* 使用 flexbox */
+    flex-direction: column;
+    /* 垂直排列 */
+    gap: 10px;
+    /* 設置按鈕之間的間距 */
+}
