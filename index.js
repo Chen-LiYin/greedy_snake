@@ -18,57 +18,33 @@
 
     let score = 0;
 
-    // const setScore = () => {
-    //     scoreEl.innerHTML = `Score 👉 <span class="score-value">${score}</span>`;
-    //     if (score >= localStorage.getItem("highScore"))
-    //         localStorage.setItem("highScore", score);
-    //     highScoreEl.innerHTML = `HIGEST SCORE 🚀 ${localStorage.getItem("highScore")}`;
-    // };
     const setScore = () => {
-        // 更新當前分數顯示
         scoreEl.innerHTML = `Score 👉 <span class="score-value">${score}</span>`;
-
-        let highScore = localStorage.getItem("highScore"); // 從 localStorage 中獲取最高分
+        let highScore = localStorage.getItem("highScore");
         if (!highScore) {
-            highScore = 0; // 如果沒有最高分，設置為 0
+            highScore = 0;
         } else {
-            highScore = Number(highScore); // 轉換為數字
+            highScore = Number(highScore);
         }
 
-        // 如果當前分數超過最高分，更新最高分
         if (score > highScore) {
-            localStorage.setItem("highScore", score); // 保存新的最高分到 localStorage
-            highScore = score; // 更新本地變量
+            localStorage.setItem("highScore", score);
+            highScore = score;
         }
 
-        // 更新最高分顯示
         highScoreEl.innerHTML = `HIGHEST SCORE 🚀 <span class="high-score-value">${highScore}</span>`;
     };
 
-
-
-
-
-    // frame rate
     const frameRate = 9.5;
-
-    // grid padding
     const pGrid = 4;
-    // grid width
     const grid_line_len = canvasSize - 2 * pGrid;
-    //  cell count
     const cellCount = 44;
-    // cell size
     const cellSize = grid_line_len / cellCount;
-
     let gameActive;
 
-    // this will generate random color for head
     const randomColor = () => {
-        let color;
         let colorArr = ["#426ff5", "#42f5e3"];
-        color = colorArr[Math.floor(Math.random() * 2)];
-        return color;
+        return colorArr[Math.floor(Math.random() * 2)];
     };
 
     const head = {
@@ -128,18 +104,14 @@
         },
     };
 
-    // this will set canvas style
     const setCanvas = () => {
-        // canvas fill
         ctx.fillStyle = canvasFillColor;
         ctx.fillRect(0, 0, w, h);
 
-        // canvas stroke
         ctx.strokeStyle = canvasStrokeColor;
         ctx.strokeRect(0, 0, w, h);
     };
 
-    //   this will draw the grid
     const drawGrid = () => {
         ctx.beginPath();
         for (let i = 0; i <= grid_line_len; i += cellSize) {
@@ -156,7 +128,6 @@
     };
 
     const drawSnake = () => {
-        //loop through our snakeparts array
         snakeParts.forEach((part) => {
             part.draw();
         });
@@ -164,7 +135,7 @@
         snakeParts.push(new Tail(head.x, head.y));
 
         if (snakeParts.length > tailLength) {
-            snakeParts.shift(); //remove furthest item from  snake part if we have more than our tail size
+            snakeParts.shift();
         }
         head.color = randomColor();
         head.draw();
@@ -173,6 +144,7 @@
     const updateSnakePosition = () => {
         head.x += head.vX;
         head.y += head.vY;
+        updatePosition("Player1", head.x, head.y); // 發送玩家位置到伺服器
     };
 
     const changeDir = (e) => {
@@ -232,12 +204,7 @@
             }
         });
 
-        if (
-            head.x < 0 ||
-            head.y < 0 ||
-            head.x > cellCount - 1 ||
-            head.y > cellCount - 1
-        ) {
+        if (head.x < 0 || head.y < 0 || head.x > cellCount - 1 || head.y > cellCount - 1) {
             gameOver = true;
         }
 
@@ -271,7 +238,6 @@
 
     let showGrid = false;
 
-    // this will initiate all
     const animate = () => {
         setCanvas();
         if (showGrid) drawGrid();
@@ -279,10 +245,7 @@
         food.draw();
         if (gameActive) {
             PlayButton(false);
-            pauseEl.removeAttribute('class');
-            // pauseEl.setAttribute('class', 'pause-active');button-64
             pauseEl.setAttribute('class', 'button-64');
-
             updateSnakePosition();
             if (isGameOver()) {
                 showGameOver();
@@ -302,17 +265,28 @@
     resetEl.addEventListener("click", resetGame);
 
     const toggleGrid = () => {
-        if (!showGrid) {
-            showGrid = true;
-            showGridEl.innerHTML = '<span class="text">HIDE GRID</span>'
-            return;
-        }
-        showGrid = false;
-        showGridEl.innerHTML = '<span class="text">SHOW GRID</span>'
-
+        showGrid = !showGrid;
+        showGridEl.innerHTML = showGrid ? '<span class="text">HIDE GRID</span>' : '<span class="text">SHOW GRID</span>';
     };
-
 
     showGridEl.addEventListener("click", toggleGrid);
     animate();
+
+    // SignalR 連接到本地 Hub
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/snakeHub")
+        .build();
+
+    connection.start().then(() => {
+        console.log("Connected to local SignalR");
+    }).catch(err => console.error("Error connecting to SignalR:", err));
+
+    connection.on("ReceivePosition", (playerName, x, y) => {
+        console.log(`${playerName} is at ${x}, ${y}`);
+    });
+
+    function updatePosition(playerName, x, y) {
+        connection.invoke("UpdatePosition", playerName, x, y).catch(err => console.error("Error sending position:", err));
+    }
+
 })();

@@ -73,6 +73,7 @@ body {
     font-family: "Press Start 2P", cursive;
 }
 
+/* 3 buttons on the left */
 #controls {
     position: absolute;
     top: 40%;
