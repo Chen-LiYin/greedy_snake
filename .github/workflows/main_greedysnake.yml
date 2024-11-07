@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - GreedySnake
+name: Build and deploy ASP.Net Core app to Azure Web App - greedysnake
 
 on:
   push:
@@ -16,25 +16,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
         with:
-          node-version: '20.x'
+          dotnet-version: '9.x'
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-      
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: .
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
@@ -46,20 +46,20 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: .net-app
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_00AF1A9DB1DA4935A6D5267521301D95 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7CFE96324ED343CAB09A3677DECA6D7B }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4C3B164145F44C9F81486D611256AA80 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_ECFF0DE998F54649A82B470ED55235F9 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_28881365711A4149BEA4647AAA25C076 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F22BD4FFA7D94DDCA99E79829A7749A2 }}
 
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
         with:
-          app-name: 'GreedySnake'
+          app-name: 'greedysnake'
           slot-name: 'Production'
           package: .
           
