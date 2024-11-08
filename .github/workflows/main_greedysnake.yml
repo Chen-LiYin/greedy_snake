@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - greedysnake
+name: Build and deploy ASP.Net Core app to Azure Web App - greedySnake
 
 on:
   push:
@@ -51,15 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_961FAD0207814BE1B0BEA74744B55055 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2E3BDE34DF644D11A176974D97CDFE8B }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4CB72CCAB77845489522FFC4966BD7F2 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8BCBB9904669476195C5015961851103 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8EDE4B0BC94D4407B5814D3F98DC1FC4 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D8593D2EEEF743579E38881A70880EC1 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'greedysnake'
+          app-name: 'greedySnake'
           slot-name: 'Production'
           package: .
           
